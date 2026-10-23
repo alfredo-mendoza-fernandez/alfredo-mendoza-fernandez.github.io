@@ -1,3 +1,35 @@
+@font-face {
+  font-family: "Erewhon";
+  src: url("fonts/Erewhon-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Erewhon";
+  src: url("fonts/Erewhon-Italic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Erewhon";
+  src: url("fonts/Erewhon-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Erewhon";
+  src: url("fonts/Erewhon-BoldItalic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --ink: #25211f;
   --muted: #6b6662;
@@ -15,7 +47,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   font-size: 17px;
   line-height: 1.68;
   -webkit-font-smoothing: antialiased;
@@ -37,7 +69,7 @@ a:focus { color: var(--accent-dark); }
   display: flex;
   justify-content: flex-end;
   border-bottom: 1px solid var(--rule);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
 }
 
 .site-nav {
@@ -87,28 +119,27 @@ main {
 }
 
 .kicker,
-.section-label,
-.abstract-label {
+.section-label {
   margin: 0;
   color: var(--accent);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.kicker {
+.kicker,
+.intro h1 {
   font-size: clamp(1rem, 1.6vw, 1.22rem);
 }
 
-.section-label,
-.abstract-label {
+.section-label {
   font-size: 0.75rem;
   letter-spacing: 0.12em;
 }
 
 h1, h2, h3, h4 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   color: var(--ink);
   letter-spacing: -0.025em;
 }
@@ -116,15 +147,14 @@ h1, h2, h3, h4 {
 h1 {
   max-width: 650px;
   margin: 8px 0 14px;
-  font-size: clamp(2.15rem, 4vw, 3.25rem);
-  font-weight: 600;
-  line-height: 1.06;
+  font-weight: 700;
+  line-height: 1.14;
 }
 
 .role {
   margin: 0 0 24px;
   color: var(--muted);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   font-size: 0.98rem;
   line-height: 1.55;
 }
@@ -138,7 +168,7 @@ h1 {
   flex-wrap: wrap;
   gap: 10px 22px;
   margin-top: 25px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   font-size: 0.88rem;
   font-weight: 600;
 }
@@ -180,25 +210,14 @@ h1 {
 }
 
 .paper {
-  display: grid;
-  grid-template-columns: 54px minmax(0, 1fr);
-  gap: 18px;
   padding: 34px 0 38px;
   border-bottom: 1px solid var(--rule);
 }
 
-.paper-number {
-  padding-top: 3px;
-  color: #aaa19c;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-}
-
 .paper-title {
-  margin: 0 0 5px;
+  margin: 0 0 17px;
   font-size: clamp(1.15rem, 2vw, 1.42rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.32;
 }
 
@@ -210,16 +229,25 @@ h1 {
 .paper-title a:hover,
 .paper-title a:focus { text-decoration: underline; }
 
+.paper-coauthor {
+  color: var(--muted);
+  font-size: 0.78em;
+  font-weight: 400;
+}
+
+.paper-coauthor a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 .paper-meta {
-  margin: 0 0 19px;
+  margin: 0 0 17px;
   color: var(--muted);
   font-size: 0.96rem;
 }
 
-.abstract-label { margin-bottom: 5px; }
-
 .abstract {
-  max-width: 880px;
+  max-width: none;
   margin: 0 0 17px;
 }
 
@@ -228,7 +256,7 @@ h1 {
   flex-wrap: wrap;
   gap: 10px 18px;
   margin: 20px 0 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.035em;
@@ -248,7 +276,7 @@ footer {
   padding: 26px 0 44px;
   border-top: 1px solid var(--rule);
   color: var(--muted);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Erewhon", Georgia, "Times New Roman", serif;
   font-size: 0.8rem;
 }
 
@@ -274,10 +302,4 @@ footer {
 
   .research { padding-top: 46px; }
 
-  .paper {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .paper-number { padding-top: 0; }
 }
