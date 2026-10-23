@@ -7,12 +7,13 @@
   <title>Alfredo Mendoza-Fernández</title>
   <style>
     :root {
-      --ink: #262626;
-      --muted: #666;
-      --rule: #dedede;
-      --link: #8a001a;
-      --link-hover: #5f0012;
-      --paper: #fff;
+      --ink: #25211f;
+      --muted: #6b6662;
+      --rule: #e5dfdc;
+      --accent: #8a001a;
+      --accent-dark: #5f0012;
+      --paper: #ffffff;
+      --soft: #f8f5f4;
     }
 
     * { box-sizing: border-box; }
@@ -25,180 +26,359 @@
       color: var(--ink);
       font-family: Georgia, "Times New Roman", serif;
       font-size: 17px;
-      line-height: 1.58;
+      line-height: 1.68;
       -webkit-font-smoothing: antialiased;
     }
 
-    main {
-      width: min(920px, calc(100% - 40px));
-      margin: 62px auto 80px;
-    }
-
-    h1, h2 {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #111;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-
-    h1 {
-      margin: 0 0 7px;
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      line-height: 1.08;
-    }
-
-    h2 {
-      margin: 54px 0 24px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--rule);
-      font-size: 1.35rem;
-    }
-
-    p { margin: 0 0 15px; }
-
     a {
-      color: var(--link);
+      color: var(--accent);
       text-decoration-thickness: 1px;
       text-underline-offset: 3px;
     }
 
-    a:hover, a:focus { color: var(--link-hover); }
+    a:hover, a:focus { color: var(--accent-dark); }
+
+    .site-header {
+      width: min(1080px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 30px 0 26px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 28px;
+      border-bottom: 1px solid var(--rule);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-size: 1.1rem;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+      text-decoration: none;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.88rem;
+    }
+
+    .site-nav a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus { color: var(--accent); }
+
+    main {
+      width: min(1080px, calc(100% - 48px));
+      margin: 0 auto;
+    }
 
     .intro {
       display: grid;
-      grid-template-columns: 245px 1fr;
-      gap: 42px;
-      align-items: start;
+      grid-template-columns: minmax(260px, 370px) minmax(0, 1fr);
+      gap: clamp(42px, 7vw, 86px);
+      align-items: center;
+      padding: 72px 0 86px;
     }
 
     .portrait {
       display: block;
-      width: 245px;
-      aspect-ratio: 1 / 1;
+      width: 100%;
+      aspect-ratio: 4 / 5;
       object-fit: cover;
       object-position: 50% 30%;
-      border-radius: 3px;
+    }
+
+    .kicker,
+    .section-label,
+    .abstract-label {
+      margin: 0;
+      color: var(--accent);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+    }
+
+    h1 {
+      margin: 8px 0 12px;
+      font-size: clamp(2.35rem, 5vw, 4.25rem);
+      font-weight: 600;
+      line-height: 1.03;
     }
 
     .role {
-      margin: 0 0 20px;
+      margin: 0 0 24px;
       color: var(--muted);
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 1rem;
+      font-size: 0.98rem;
+      line-height: 1.55;
     }
 
-    .links {
+    .intro-copy { max-width: 620px; }
+
+    .intro-copy > p:not(.kicker):not(.role) { margin: 0 0 16px; }
+
+    .profile-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px 18px;
-      margin-top: 20px;
+      gap: 10px 22px;
+      margin-top: 25px;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.94rem;
+      font-size: 0.88rem;
+      font-weight: 600;
     }
 
-    .paper { margin-bottom: 32px; }
+    .research {
+      padding: 78px 0 36px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(170px, 0.38fr) minmax(0, 1fr);
+      gap: 42px;
+      margin-bottom: 46px;
+    }
+
+    .section-heading h2 {
+      margin: 7px 0 0;
+      font-size: clamp(2.1rem, 4vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.08;
+    }
+
+    .section-intro {
+      align-self: end;
+      max-width: 660px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .research-group { margin: 0 0 72px; }
+
+    .research-group h3 {
+      margin: 0;
+      padding: 0 0 12px;
+      border-bottom: 2px solid var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .paper {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 18px;
+      padding: 34px 0 38px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .paper-number {
+      padding-top: 3px;
+      color: #aaa19c;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+    }
 
     .paper-title {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.08rem;
+      margin: 0 0 5px;
+      font-size: clamp(1.15rem, 2vw, 1.42rem);
       font-weight: 600;
-      line-height: 1.4;
+      line-height: 1.32;
     }
 
+    .paper-title a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .paper-title a:hover,
+    .paper-title a:focus { text-decoration: underline; }
+
     .paper-meta {
-      margin: 3px 0 11px;
+      margin: 0 0 19px;
       color: var(--muted);
       font-size: 0.96rem;
     }
 
-    .paper p:last-child { margin-bottom: 0; }
+    .abstract-label { margin-bottom: 5px; }
+
+    .abstract {
+      max-width: 880px;
+      margin: 0 0 17px;
+    }
+
+    .paper-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin: 20px 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.035em;
+      text-transform: uppercase;
+    }
 
     .details {
+      max-width: 900px;
+      margin: 13px 0 0;
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.9rem;
+      line-height: 1.55;
     }
 
     footer {
-      margin-top: 60px;
-      padding-top: 18px;
+      margin-top: 12px;
+      padding: 26px 0 44px;
       border-top: 1px solid var(--rule);
       color: var(--muted);
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
     }
 
-    @media (max-width: 680px) {
-      main {
-        width: min(100% - 30px, 560px);
-        margin-top: 30px;
+    @media (max-width: 760px) {
+      .site-header,
+      main { width: min(100% - 32px, 620px); }
+
+      .site-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
       }
 
       .intro {
         grid-template-columns: 1fr;
-        gap: 26px;
+        gap: 34px;
+        padding: 42px 0 58px;
       }
 
-      .portrait {
-        width: min(245px, 72vw);
-      }
+      .portrait { width: min(100%, 380px); }
 
-      h2 { margin-top: 42px; }
+      .section-heading { grid-template-columns: 1fr; gap: 16px; }
+
+      .research { padding-top: 56px; }
+
+      .paper { grid-template-columns: 1fr; gap: 8px; }
+
+      .paper-number { padding-top: 0; }
     }
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <a class="brand" href="#about">Alfredo Mendoza-Fernández</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="https://drive.google.com/file/d/1u0pi8GPpG8_oMItCPe8ijrGYifC8ohKN/view?usp=drive_link">CV</a>
+    </nav>
+  </header>
+
   <main>
-    <section class="intro" aria-labelledby="name">
+    <section class="intro" id="about" aria-labelledby="name">
       <img class="portrait" src="profile.png" alt="Portrait of Alfredo Mendoza-Fernández">
 
-      <div>
+      <div class="intro-copy">
+        <p class="kicker">Welcome</p>
         <h1 id="name">Alfredo Mendoza-Fernández</h1>
         <p class="role">Assistant Professor · School of Business and Economics, U Andes, Chile<br>Ph.D. in Economics · UC Berkeley</p>
 
-        <p>Welcome! I am an economist whose main research interests are in open-economy macroeconomics. You can reach out to me at <a href="mailto:amendozaf@uandes.cl">amendozaf@uandes.cl</a>.</p>
+        <p>I am an economist whose main research interests are in open-economy macroeconomics.</p>
+        <p>You can reach out to me at <a href="mailto:amendozaf@uandes.cl">amendozaf@uandes.cl</a>.</p>
 
-        <nav class="links" aria-label="Professional links">
-          <a href="https://drive.google.com/file/d/1u0pi8GPpG8_oMItCPe8ijrGYifC8ohKN/view?usp=drive_link">CV</a>
+        <nav class="profile-links" aria-label="Professional links">
+          <a href="https://drive.google.com/file/d/1u0pi8GPpG8_oMItCPe8ijrGYifC8ohKN/view?usp=drive_link">Download CV</a>
           <a href="https://github.com/alfredo-mendoza-fernandez">GitHub</a>
         </nav>
       </div>
     </section>
 
-    <section aria-labelledby="working-papers">
-      <h2 id="working-papers">Working papers</h2>
+    <section class="research" id="research" aria-labelledby="research-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">Selected work</p>
+          <h2 id="research-title">Research</h2>
+        </div>
+        <p class="section-intro">My research studies international monetary transmission and macroeconomic dynamics in emerging economies.</p>
+      </div>
 
-      <article class="paper">
-        <p class="paper-title"><a href="https://drive.google.com/file/d/11hAbTC-KCe8YB0j25b3eJ0Ev-lhQNJ4g/view?usp=drive_link">Do Central Banks Follow the Fed?</a></p>
-        <p class="paper-meta">with <a href="https://serrapelin.github.io/">Serra Pelin</a></p>
-        <p>We study how central banks respond to U.S. monetary shocks. Using a newly constructed dataset on monetary policy meetings (the MPM-dataset), we show that emerging-market (EME) central banks systematically move in tandem with the Fed, whereas advanced-economy central banks do not. We attribute this heterogeneity to the asymmetric spillovers of U.S. monetary policy on firms’ marginal costs. A three-bloc open-economy New Keynesian model with dominant currency pricing and partial debt dollarization reproduces these empirical patterns, highlighting that EME responses stem from the immediate impact of Fed shocks on exchange rates and, in turn, on marginal costs.</p>
-        <p class="details">Coverage: <a href="https://www.piie.com/blogs/realtime-economics/2026/amid-wartime-disruptions-most-emerging-market-central-banks-will">Peterson Institute for International Economics</a></p>
-        <p class="details">Seminars and conferences: Universidad de los Andes, Chile; University of Notre Dame; IMF–BoE–BIS–ECB Conference on Global Spillovers 2026; Getulio Vargas Foundation; Universidad de los Andes, Colombia; Banco Central de la República; University of California, Berkeley.</p>
-      </article>
+      <div class="research-group" aria-labelledby="working-papers">
+        <h3 id="working-papers">Working papers</h3>
 
-      <article class="paper">
-        <p class="paper-title"><a href="https://drive.google.com/file/d/11nLIejjictZjPxb9u2W0_oEwyP3xzWER/view?usp=drive_link">The Emerging Market Great Moderation</a></p>
-        <p class="paper-meta">with <a href="https://timothy-meyer.net/">Timothy Meyer</a></p>
-        <p>We document a Great Moderation in emerging markets, a dramatic fall in aggregate macroeconomic volatility by about 40%, without changes in other distinctive characteristics of emerging-market business cycles. Using a novel methodology, we link the moderation to canonical emerging-market business-cycle theories. Consistent with those theories, the contribution of fluctuations in the growth trend is substantial and has not diminished. The moderation resulted in important welfare gains in emerging economies and stems from a reduction in country-specific volatility, which can be linked to shifts in monetary policy.</p>
-        <p class="details">Seminars and conferences: EconCR 2023; Southern California Graduate Conference in Applied Economics 2024; CEPR Conference on Emerging Markets Macroeconomic Policies 2025; University of California, Berkeley.</p>
-      </article>
+        <article class="paper">
+          <div class="paper-number" aria-hidden="true">01</div>
+          <div>
+            <h4 class="paper-title"><a href="https://drive.google.com/file/d/11hAbTC-KCe8YB0j25b3eJ0Ev-lhQNJ4g/view?usp=drive_link">Do Central Banks Follow the Fed?</a></h4>
+            <p class="paper-meta">with <a href="https://serrapelin.github.io/">Serra Pelin</a></p>
+            <p class="abstract-label">Abstract</p>
+            <p class="abstract">We study how central banks respond to U.S. monetary shocks. Using a newly constructed dataset on monetary policy meetings (the MPM-dataset), we show that emerging-market (EME) central banks systematically move in tandem with the Fed, whereas advanced-economy central banks do not. We attribute this heterogeneity to the asymmetric spillovers of U.S. monetary policy on firms’ marginal costs. A three-bloc open-economy New Keynesian model with dominant currency pricing and partial debt dollarization reproduces these empirical patterns, highlighting that EME responses stem from the immediate impact of Fed shocks on exchange rates and, in turn, on marginal costs.</p>
+            <nav class="paper-links" aria-label="Links for Do Central Banks Follow the Fed?">
+              <a href="https://drive.google.com/file/d/11hAbTC-KCe8YB0j25b3eJ0Ev-lhQNJ4g/view?usp=drive_link">Latest draft</a>
+              <a href="https://www.piie.com/blogs/realtime-economics/2026/amid-wartime-disruptions-most-emerging-market-central-banks-will">Coverage</a>
+            </nav>
+            <p class="details">Seminars and conferences: Universidad de los Andes, Chile; University of Notre Dame; IMF–BoE–BIS–ECB Conference on Global Spillovers 2026; Getulio Vargas Foundation; Universidad de los Andes, Colombia; Banco Central de la República; University of California, Berkeley.</p>
+          </div>
+        </article>
+
+        <article class="paper">
+          <div class="paper-number" aria-hidden="true">02</div>
+          <div>
+            <h4 class="paper-title"><a href="https://drive.google.com/file/d/11nLIejjictZjPxb9u2W0_oEwyP3xzWER/view?usp=drive_link">The Emerging Market Great Moderation</a></h4>
+            <p class="paper-meta">with <a href="https://timothy-meyer.net/">Timothy Meyer</a></p>
+            <p class="abstract-label">Abstract</p>
+            <p class="abstract">We document a Great Moderation in emerging markets, a dramatic fall in aggregate macroeconomic volatility by about 40%, without changes in other distinctive characteristics of emerging-market business cycles. Using a novel methodology, we link the moderation to canonical emerging-market business-cycle theories. Consistent with those theories, the contribution of fluctuations in the growth trend is substantial and has not diminished. The moderation resulted in important welfare gains in emerging economies and stems from a reduction in country-specific volatility, which can be linked to shifts in monetary policy.</p>
+            <nav class="paper-links" aria-label="Links for The Emerging Market Great Moderation">
+              <a href="https://drive.google.com/file/d/11nLIejjictZjPxb9u2W0_oEwyP3xzWER/view?usp=drive_link">Latest draft</a>
+            </nav>
+            <p class="details">Seminars and conferences: EconCR 2023; Southern California Graduate Conference in Applied Economics 2024; CEPR Conference on Emerging Markets Macroeconomic Policies 2025; University of California, Berkeley.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="research-group" aria-labelledby="publications">
+        <h3 id="publications">Publications</h3>
+
+        <article class="paper">
+          <div class="paper-number" aria-hidden="true">01</div>
+          <div>
+            <h4 class="paper-title"><a href="https://repositorioinvestigaciones.bccr.fi.cr/items/cad6059c-e0f3-4c84-8469-cc3dcd5dae84">Microdata Evidence of Incomplete Monetary Policy Transmission in a Non-Competitive Banking Sector: The Case of Costa Rica</a></h4>
+            <p class="paper-meta">with José Pablo Barquero and Kerry Loaiza · Banco Central de Costa Rica Working Paper 04-2021, April 2021</p>
+            <nav class="paper-links" aria-label="Links for Microdata Evidence of Incomplete Monetary Policy Transmission">
+              <a href="https://repositorioinvestigaciones.bccr.fi.cr/items/cad6059c-e0f3-4c84-8469-cc3dcd5dae84">Published version</a>
+            </nav>
+          </div>
+        </article>
+
+        <article class="paper">
+          <div class="paper-number" aria-hidden="true">02</div>
+          <div>
+            <h4 class="paper-title"><a href="https://www.scielo.sa.cr/scielo.php?pid=S1409-24332018000200185&amp;script=sci_abstract">Demographic Modeling Via 3-Dimensional Markov Chains</a></h4>
+            <p class="paper-meta">with Juan José Víquez-Rodríguez, Alexander Campos-Méndez, Jorge Loría-Solorzano, and Jorge Víquez-Bolaños · Revista de Matemática, Teoría y Aplicaciones, July 2018</p>
+            <nav class="paper-links" aria-label="Links for Demographic Modeling Via 3-Dimensional Markov Chains">
+              <a href="https://www.scielo.sa.cr/scielo.php?pid=S1409-24332018000200185&amp;script=sci_abstract">Published version</a>
+            </nav>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <section aria-labelledby="publications">
-      <h2 id="publications">Publications</h2>
-
-      <article class="paper">
-        <p class="paper-title"><a href="https://repositorioinvestigaciones.bccr.fi.cr/items/cad6059c-e0f3-4c84-8469-cc3dcd5dae84">Microdata Evidence of Incomplete Monetary Policy Transmission in a Non-Competitive Banking Sector: The Case of Costa Rica</a></p>
-        <p class="paper-meta">with José Pablo Barquero and Kerry Loaiza · Banco Central de Costa Rica Working Paper 04-2021, April 2021</p>
-      </article>
-
-      <article class="paper">
-        <p class="paper-title"><a href="https://www.scielo.sa.cr/scielo.php?pid=S1409-24332018000200185&amp;script=sci_abstract">Demographic Modeling Via 3-Dimensional Markov Chains</a></p>
-        <p class="paper-meta">with Juan José Víquez-Rodríguez, Alexander Campos-Méndez, Jorge Loría-Solorzano, and Jorge Víquez-Bolaños · Revista de Matemática, Teoría y Aplicaciones, July 2018</p>
-      </article>
-    </section>
-
-    <footer>Last updated August 2026.</footer>
+    <footer>Last updated October 2026.</footer>
   </main>
 </body>
 </html>
