@@ -52,16 +52,17 @@ for q in bank["questions"]:
 
     if q.get("topic") not in topics:
         problems.append(f"{qid}: topic '{q.get('topic')}' is not in the topics list")
-    if q.get("difficulty") not in ("easy", "medium", "hard"):
-        problems.append(f"{qid}: difficulty '{q.get('difficulty')}' is not easy/medium/hard")
     if q.get("type") not in ("mc", "tf"):
         problems.append(f"{qid}: type '{q.get('type')}' is not mc/tf")
+
+    if not q.get("en"):
+        problems.append(f"{qid}: missing the English block")
+        continue
 
     for lang in ("en", "es"):
         side = q.get(lang)
         if not side:
-            problems.append(f"{qid}: missing the {lang} block")
-            continue
+            continue  # a language may be absent; the page falls back to English
         for field in ("stem", "explanation"):
             if not side.get(field):
                 problems.append(f"{qid} [{lang}]: {field} is empty")
@@ -88,15 +89,17 @@ for q in bank["questions"]:
             problems.append(f"{qid}: the two languages have different numbers of choices")
 
 by_topic = {}
-by_diff = {}
 for q in bank["questions"]:
-    by_topic[q.get("topic")] = by_topic.get(q.get("topic"), 0) + 1
-    by_diff[q.get("difficulty")] = by_diff.get(q.get("difficulty"), 0) + 1
+    key = (q.get("topic"), q.get("type"))
+    by_topic[key] = by_topic.get(key, 0) + 1
 
 print(f"{len(bank['questions'])} questions")
 for t in bank["topics"]:
-    print(f"  {by_topic.get(t['id'], 0):>3}  {t['en']}")
-print("  " + "  ".join(f"{k}: {by_diff.get(k, 0)}" for k in ("easy", "medium", "hard")))
+    mc = by_topic.get((t["id"], "mc"), 0)
+    tf = by_topic.get((t["id"], "tf"), 0)
+    print(f"  {mc:>3} MC {tf:>3} TF   {t['en']}")
+es = sum(1 for q in bank["questions"] if q.get("es"))
+print(f"  Spanish translations: {es} of {len(bank['questions'])}")
 print()
 
 if problems:

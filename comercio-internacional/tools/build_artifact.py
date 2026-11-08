@@ -16,6 +16,7 @@ html = (root / "index.html").read_text()
 css = (root / "assets/styles.css").read_text()
 app = (root / "assets/app.js").read_text()
 bank = (root / "data/questions.js").read_text()
+macros = (root / "data/macros.js").read_text()
 
 # The shared preview runs under a content policy that permits scripts from the
 # CDN but not stylesheets or font files, so KaTeX would render unstyled there.
@@ -35,6 +36,7 @@ out = "\n".join([
     fonts,
     "<style>", css, "</style>",
     body,
+    "<script>", macros, "</script>",
     "<script>", bank, "</script>",
     "<script>", app, "</script>",
 ])

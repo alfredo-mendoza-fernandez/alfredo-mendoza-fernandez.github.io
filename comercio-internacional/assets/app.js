@@ -7,9 +7,8 @@ const STRINGS = {
   en: {
     title: "Test yourself",
     lede: "Build a timed practice control from the course question bank. Pick the topics you want, set a clock, and review every answer with its explanation at the end.",
-    topics: "Topics",
-    allTopics: "All topics",
-    difficulty: "Difficulty",
+    topics: "Chapters",
+    allTopics: "All chapters",
     any: "Any",
     easy: "Easy", medium: "Medium", hard: "Hard",
     length: "Questions",
@@ -19,7 +18,7 @@ const STRINGS = {
     min: "min",
     poolOne: "question matches your selection",
     poolMany: "questions match your selection",
-    poolNone: "No questions match. Widen the topics or difficulty.",
+    poolNone: "No questions match. Choose more chapters.",
     start: "Start control",
     of: "of",
     finish: "Finish",
@@ -38,7 +37,7 @@ const STRINGS = {
     correct: "correct",
     timeUsed: "Time used",
     questions: "Questions",
-    byTopic: "By topic",
+    byTopic: "By chapter",
     review: "Review",
     yourAnswer: "Your answer",
     noAnswer: "Not answered",
@@ -53,9 +52,8 @@ const STRINGS = {
   es: {
     title: "Ponte a prueba",
     lede: "Arma un control cronometrado a partir del banco de preguntas del curso. Elige los temas, fija el reloj y revisa cada respuesta con su explicación al final.",
-    topics: "Temas",
-    allTopics: "Todos los temas",
-    difficulty: "Dificultad",
+    topics: "Capítulos",
+    allTopics: "Todos los capítulos",
     any: "Cualquiera",
     easy: "Fácil", medium: "Media", hard: "Difícil",
     length: "Preguntas",
@@ -65,7 +63,7 @@ const STRINGS = {
     min: "min",
     poolOne: "pregunta coincide con tu selección",
     poolMany: "preguntas coinciden con tu selección",
-    poolNone: "Ninguna pregunta coincide. Amplía los temas o la dificultad.",
+    poolNone: "Ninguna pregunta coincide. Elige más capítulos.",
     start: "Comenzar control",
     of: "de",
     finish: "Terminar",
@@ -84,7 +82,7 @@ const STRINGS = {
     correct: "correctas",
     timeUsed: "Tiempo usado",
     questions: "Preguntas",
-    byTopic: "Por tema",
+    byTopic: "Por capítulo",
     review: "Revisión",
     yourAnswer: "Tu respuesta",
     noAnswer: "Sin responder",
@@ -99,12 +97,11 @@ const STRINGS = {
 };
 
 const KEYS = ["A", "B", "C", "D", "E", "F"];
-const DIFFS = ["easy", "medium", "hard"];
 const LENGTHS = [5, 10, 15, 20, 30, 0];
 const CLOCKS = [10, 20, 30, 45, 60, 0];
 
 let lang = "es";
-let pick = { topics: new Set(), diffs: new Set(), length: 10, clock: 20 };
+let pick = { topics: new Set(), length: 10, clock: 20 };
 let run = null;
 
 /* ------------------------------------------------------------------ utils */
@@ -157,7 +154,24 @@ function fracs(s) {
 /* Used when KaTeX is unavailable — a blocked CDN, no network, the bundled
    preview. Renders the TeX as readable text instead of showing the source. */
 function plainMath(tex) {
-  let s = fracs(tex)
+  // expand the book's macros first, so the fallback shows notation, not \Alc
+  let s = tex;
+  for (let pass = 0; pass < 4; pass++) {
+    const before = s;
+    s = s.replace(/\\[a-zA-Z]+/g, (name) => (name in MACROS ? MACROS[name] : name));
+    if (s === before) break;
+  }
+
+  // font commands carry no meaning without KaTeX; keep their contents
+  for (let pass = 0; pass < 4; pass++) {
+    const before = s;
+    s = s.replace(/\\(?:mathrm|mathsf|mathit|mathbf|mathcal|mathbb|text|operatorname)\s*\{([^{}]*)\}/g, "$1");
+    if (s === before) break;
+  }
+
+  s = fracs(s)
+    .replace(/\\sqrt\s*\{([^{}]*)\}/g, "√($1)").replace(/\\sqrt\s*(\w)/g, "√$1")
+    .replace(/\\prime/g, "′")
     .replace(/\\times/g, " × ").replace(/\\cdot/g, " · ")
     .replace(/\\leq/g, " ≤ ").replace(/\\geq/g, " ≥ ").replace(/\\neq/g, " ≠ ")
     .replace(/\\approx/g, " ≈ ").replace(/\\to/g, " → ").replace(/\\ast/g, "*")
@@ -174,10 +188,16 @@ function plainMath(tex) {
   return s;
 }
 
+/* The book's own macros, exported from macros.tex. Handed to KaTeX so the bank
+   can carry the notes' notation unchanged. */
+const MACROS = window.TRADE_MACROS || {};
+
 function math(tex, display) {
   if (window.katex) {
     try {
-      return window.katex.renderToString(tex, { displayMode: display, throwOnError: false });
+      return window.katex.renderToString(tex, {
+        displayMode: display, throwOnError: false, macros: MACROS
+      });
     } catch (e) { /* malformed TeX: fall through to the plain rendering */ }
   }
   return '<span class="tex' + (display ? " tex-block" : "") + '">' + plainMath(tex) + "</span>";
@@ -210,7 +230,8 @@ function shuffle(a) {
 
 function topicName(id) {
   const tp = BANK.topics.find((x) => x.id === id);
-  return tp ? tp[lang] : id;
+  if (!tp) return id;
+  return (tp.chapter ? tp.chapter + ". " : "") + (tp[lang] || tp.en);
 }
 
 function clock(ms) {
@@ -223,7 +244,6 @@ function save() {
     localStorage.setItem("trade-quiz", JSON.stringify({
       lang,
       topics: [...pick.topics],
-      diffs: [...pick.diffs],
       length: pick.length,
       clock: pick.clock
     }));
@@ -237,7 +257,6 @@ function load() {
     const p = JSON.parse(raw);
     if (p.lang === "en" || p.lang === "es") lang = p.lang;
     if (Array.isArray(p.topics)) pick.topics = new Set(p.topics.filter((x) => BANK.topics.some((tp) => tp.id === x)));
-    if (Array.isArray(p.diffs)) pick.diffs = new Set(p.diffs.filter((x) => DIFFS.includes(x)));
     if (LENGTHS.includes(p.length)) pick.length = p.length;
     if (CLOCKS.includes(p.clock)) pick.clock = p.clock;
   } catch (e) { /* ignore unreadable preferences */ }
@@ -247,7 +266,7 @@ function load() {
 
 function choicesOf(q) {
   if (q.type === "tf") return [t("true"), t("false")];
-  return q[lang].choices;
+  return side(q).choices;
 }
 
 function correctIndex(q) {
@@ -255,11 +274,11 @@ function correctIndex(q) {
   return q.answer;
 }
 
+/* A question may carry only some languages; English is the fallback. */
+const side = (q) => q[lang] || q.en;
+
 function pool() {
-  return BANK.questions.filter((q) =>
-    (pick.topics.size === 0 || pick.topics.has(q.topic)) &&
-    (pick.diffs.size === 0 || pick.diffs.has(q.difficulty))
-  );
+  return BANK.questions.filter((q) => pick.topics.size === 0 || pick.topics.has(q.topic));
 }
 
 /* ------------------------------------------------------------------ setup */
@@ -286,7 +305,6 @@ function renderSetup() {
   $("setup-title").textContent = t("title");
   $("setup-lede").textContent = t("lede");
   $("lg-topics").textContent = t("topics");
-  $("lg-diff").textContent = t("difficulty");
   $("lg-len").textContent = t("length");
   $("lg-clock").textContent = t("clock");
   $("start").textContent = t("start");
@@ -298,20 +316,11 @@ function renderSetup() {
   tb.appendChild(chip(t("allTopics"), pick.topics.size === 0, () => { pick.topics.clear(); renderSetup(); save(); }));
   BANK.topics.forEach((tp) => {
     const n = BANK.questions.filter((q) => q.topic === tp.id).length;
-    tb.appendChild(chip(tp[lang], pick.topics.has(tp.id), () => {
+    const label = (tp.chapter ? tp.chapter + ". " : "") + (tp[lang] || tp.en);
+    tb.appendChild(chip(label, pick.topics.has(tp.id), () => {
       pick.topics.has(tp.id) ? pick.topics.delete(tp.id) : pick.topics.add(tp.id);
       renderSetup(); save();
     }, n));
-  });
-
-  const db = $("diff-chips");
-  db.innerHTML = "";
-  db.appendChild(chip(t("any"), pick.diffs.size === 0, () => { pick.diffs.clear(); renderSetup(); save(); }));
-  DIFFS.forEach((d) => {
-    db.appendChild(chip(t(d), pick.diffs.has(d), () => {
-      pick.diffs.has(d) ? pick.diffs.delete(d) : pick.diffs.add(d);
-      renderSetup(); save();
-    }));
   });
 
   const lb = $("len-chips");
@@ -346,7 +355,7 @@ function renderSetup() {
 
 function begin(questions, minutes) {
   run = {
-    items: questions.map((q) => ({ q, order: q.type === "mc" ? shuffle(q[lang].choices.map((_, i) => i)) : [0, 1] })),
+    items: questions.map((q) => ({ q, order: q.type === "mc" ? shuffle(side(q).choices.map((_, i) => i)) : [0, 1] })),
     answers: new Array(questions.length).fill(null),
     flags: new Array(questions.length).fill(false),
     i: 0,
@@ -395,8 +404,7 @@ function renderExam() {
   $("next").disabled = run.i === n - 1;
 
   $("tag-topic").textContent = topicName(q.topic);
-  $("tag-diff").textContent = t(q.difficulty);
-  $("stem").innerHTML = markup(q[lang].stem);
+  $("stem").innerHTML = markup(side(q).stem);
 
   const labels = choicesOf(q);
   const box = $("choices");
@@ -498,11 +506,11 @@ function renderResults() {
     card.innerHTML =
       '<div class="rhead"><span>' + (k + 1) + " / " + n + "</span><span>" + markup(topicName(q.topic)) + "</span>" +
       '<span class="verdict ' + (ok ? "ok" : "no") + '">' + (ok ? t("right") : t("wrong")) + "</span></div>" +
-      '<p class="rstem">' + markup(q[lang].stem) + "</p>" +
+      '<p class="rstem">' + markup(side(q).stem) + "</p>" +
       '<p class="rline given ' + (ok ? "" : "no") + '"><span class="lbl">' + t("yourAnswer") + "</span>" +
         (given === null ? t("noAnswer") : markup(labels[given])) + "</p>" +
       (ok ? "" : '<p class="rline truth"><span class="lbl">' + t("correctAnswer") + "</span>" + markup(labels[truth]) + "</p>") +
-      '<p class="why">' + markup(q[lang].explanation) + "</p>";
+      '<p class="why">' + markup(side(q).explanation) + "</p>";
     rv.appendChild(card);
   });
 

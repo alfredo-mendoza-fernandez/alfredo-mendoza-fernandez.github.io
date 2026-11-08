@@ -40,33 +40,49 @@ Opening `index.html` by double-clicking also works, because the bank is loaded
 through a `<script>` tag rather than `fetch`. No local server needed — useful for
 checking a new question before pushing it.
 
-## ⚠ This repository is public
+## This repository is public
 
-Anyone can read `data/questions.js`, which means anyone can read the correct
-answers and the explanations. That is fine, and intended, for a practice bank.
+Anyone can read `data/questions.js`, including every correct answer and
+explanation, and these questions come from the lecture notes. That is deliberate:
+the notes and this site are published as a public good.
 
-**Do not put questions here that you plan to use verbatim on a graded control.**
-Keep those in a separate file that is never committed. If you want that separation
-enforced rather than remembered, add a `private/` folder to the repository's
-`.gitignore` and keep the graded bank in it; the practice site will not load it and
-git will refuse to publish it.
+The practical consequence worth remembering: these 240 questions cannot double as
+unseen material on a graded control. For a control, write new items in the `.tex`
+and keep them out of the published chapter until after the exam, or keep a
+separate bank in a `private/` folder listed in `.gitignore` — the site does not
+load it and git will not publish it.
 
-## Editing the question bank
+## Where the questions come from
 
-Everything lives in `data/questions.js`. One question is one object:
+`data/questions.js` is **generated** from the lecture notes
+(`Lecture Notes in International Trade`, EAI 3220) by `tools/import_notes.py`.
+It takes the `mcquestion` and `tfquestion` environments out of each chapter's
+Exercises section verbatim, with that chapter's solution as the explanation.
+
+```bash
+python3 tools/import_notes.py "<path to the Notes folder>"
+```
+
+Re-run that after editing the notes. Do not hand-edit `data/questions.js` —
+the next import overwrites it. Fix the question in the `.tex` instead, which
+keeps the book and the quiz in step.
+
+The importer also writes `data/macros.js` from the notes' `macros.tex`, and the
+page hands that table to KaTeX. This is what lets the bank carry `\Alc`,
+`\relpi` and `\ccutD` exactly as the book writes them instead of expanding
+them into something that would drift from the source.
+
+## The question format
+
+One question is one object:
 
 ```js
 {
-  id: "po-09", topic: "policy", difficulty: "medium", type: "mc", answer: 2,
+  id: "policy1-mc01", topic: "policy1", type: "mc", answer: 1,
   en: {
-    stem: "...",
-    choices: ["...", "...", "...", "..."],
-    explanation: "..."
-  },
-  es: {
-    stem: "...",
-    choices: ["...", "...", "...", "..."],
-    explanation: "..."
+    stem: R`A small country imposes a specific tariff \(t\). The domestic price rises by`,
+    choices: [R`less than \(t\) ...`, R`exactly \(t\) ...`, R`...`, R`...`],
+    explanation: R`"Small" means \(\XS\) is horizontal at \(p\wld\) ...`
   }
 }
 ```
@@ -74,13 +90,17 @@ Everything lives in `data/questions.js`. One question is one object:
 | Field | Values |
 |---|---|
 | `id` | any unique string |
-| `topic` | an `id` from the `topics` array at the top of the file |
-| `difficulty` | `"easy"`, `"medium"`, `"hard"` |
+| `topic` | an `id` from the `topics` array — one per chapter |
 | `type` | `"mc"` or `"tf"` |
 | `answer` | `mc`: index of the correct choice, counting from 0. `tf`: `true` or `false` |
 
 True/false questions carry no `choices`; the app supplies *Verdadero / Falso* and
 *True / False* in the active language.
+
+A language block may be absent. The questions are currently English only, taken
+from the notes as written; the interface is bilingual and falls back to English
+for the question text. Adding an `es` block to a question makes that question
+appear in Spanish when the toggle is set to ES.
 
 Choice order is shuffled on every attempt, so the position of the correct answer in
 the file does not matter. Questions are shuffled too.
@@ -139,23 +159,27 @@ also works as a pre-commit hook.
 
 ## What is in the bank now
 
-44 questions, 31 multiple choice and 13 true/false, across nine topics:
+240 questions — 120 multiple choice and 120 true/false, ten of each per chapter:
 
-| Topic | Questions |
-|---|---|
-| Comparative advantage (Ricardian) | 5 |
-| Specific factors | 4 |
-| Heckscher–Ohlin | 5 |
-| Standard trade model | 4 |
-| Scale economies and varieties | 4 |
-| Firms, FDI and offshoring | 4 |
-| Gravity model | 4 |
-| Instruments of trade policy | 8 |
-| Political economy and agreements | 6 |
+| # | Chapter | MC | TF |
+|---|---|---|---|
+| 1 | Method and models | 10 | 10 |
+| 2 | The facts of world trade | 10 | 10 |
+| 3 | Gravity | 10 | 10 |
+| 4 | Ricardo | 10 | 10 |
+| 5 | Specific factors | 10 | 10 |
+| 6 | Heckscher-Ohlin | 10 | 10 |
+| 7 | External economies of scale | 10 | 10 |
+| 8 | Monopolistic competition | 10 | 10 |
+| 9 | Heterogeneous firms | 10 | 10 |
+| 10 | FDI and offshoring | 10 | 10 |
+| 11 | Instruments of trade policy | 10 | 10 |
+| 12 | The political economy of trade | 10 | 10 |
 
-Difficulty split: 10 easy, 24 medium, 10 hard. The questions follow the standard
-Krugman–Obstfeld–Melitz / Feenstra–Taylor sequence, so they should map onto the
-course as taught without renumbering.
+There is no difficulty tagging: the notes carry none, so rather than invent one
+the filter was removed. Students filter by chapter instead, which is what maps
+onto a control anyway. If difficulty tags are ever added to the `.tex`, the
+importer can carry them through and the filter can come back.
 
 ## Refreshing the shared preview
 
