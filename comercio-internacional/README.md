@@ -8,12 +8,43 @@ question with its explanation at the end. Interface and question bank are biling
 No build step, no framework, no dependencies. It is four files and a font link.
 
 ```
-index.html           page structure
-assets/styles.css    design tokens and layout
-assets/app.js        filtering, timer, scoring, review
-data/questions.js    the question bank  ← the only file you normally edit
-tools/build_artifact.py   bundles everything into a single artifact.html
+index.html             the quiz
+assets/styles.css      quiz design tokens and layout
+assets/app.js          filtering, timer, scoring, review
+assets/render.js       shared text + LaTeX renderer (quiz and game)
+
+game/index.html        Comparative Advantage — battle prototype
+game/game.css          the game's own single dark theme
+game/game.js           combat, levelling, items, the drawn opponents
+
+data/questions.js      the question bank      (generated — see below)
+data/macros.js         the book's LaTeX macros (generated — see below)
+
+tools/import_notes.py     builds both data files from the lecture notes
+tools/check_bank.py       validates the bank before publishing
+tools/build_artifact.py   bundles a page into one file for preview
 ```
+
+## Two front ends, one bank
+
+`/` is the quiz: pick chapters, set a clock, sit a control, review every answer.
+
+`/comercio-internacional/game/` is **Comparative Advantage**, a turn-based
+prototype over Chapter 4 only. Four opponents, each a misconception the chapter
+refutes — the Mercantilist, Absolute Advantage, the Pauper-Labour Argument, and
+Autarky as the boss. A right answer deals damage, a wrong one costs health,
+consecutive right answers build a damage streak, and three items (Erratum,
+Footnote, Revision) cost Focus earned by winning fights. Progress saves in the
+browser.
+
+Deliberately **no timer in battle**. These questions take thirty seconds to
+think about and a clock would punish exactly the ones worth thinking about; the
+timed mode lives in the quiz, where it belongs.
+
+The opponents are drawn in SVG in the page itself — no sprite sheets, no
+external art, nothing to license. Difficulty was tuned by simulating four
+thousand runs per accuracy band: a student answering 80% clears comfortably,
+70% usually clears, 60% is a real fight, and guessing never clears.
 
 ## Where this lives
 

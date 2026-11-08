@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comparative Advantage</title>
+<meta name="description" content="A battle prototype over the Chapter 4 question bank — International Trade, Universidad de los Andes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;600&display=swap">
+<!-- katex:start -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<!-- katex:end -->
+<link rel="stylesheet" href="game.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="topbar">
+    <span class="crumb" id="crumb">Chapter 4 · Ricardo</span>
+    <button type="button" class="quitlink" id="quit" hidden>Leave the dungeon</button>
+  </header>
+
+  <!-- ============================== TITLE ============================== -->
+  <section id="view-title">
+    <h1>Comparative Advantage</h1>
+    <p class="sub">A dungeon in four arguments</p>
+    <p class="lede">
+      Four opponents stand between you and the gains from trade, and each one is a
+      mistake the chapter exists to correct. You fight by answering: a right answer
+      lands a blow, a wrong one gives the argument ground. There is no clock — these
+      questions deserve the thirty seconds they take.
+    </p>
+
+    <div class="roster" id="roster"></div>
+
+    <div class="row">
+      <button type="button" class="btn" id="begin">Enter the dungeon</button>
+      <button type="button" class="btn btn-ghost" id="resume" hidden></button>
+    </div>
+
+    <p class="foot">
+      Questions are the twenty exercises of Chapter 4 of the lecture notes.
+      Prefer to practise without the fighting? <a href="../">Go to the plain quiz</a>.
+    </p>
+  </section>
+
+  <!-- ============================= BATTLE ============================== -->
+  <section id="view-battle" hidden>
+
+    <div class="stage" id="stage">
+      <div id="art"></div>
+      <div class="foename" id="foename"></div>
+      <div class="foeline" id="foeline"></div>
+      <div class="barrow">
+        <span class="bar foebar"><i id="foehp"></i></span>
+        <span class="num" id="foenum"></span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="herotop">
+        <span class="lvl" id="lvl"></span>
+        <span class="streak" id="streak"></span>
+      </div>
+      <div class="barrow">
+        <span class="bar hpbar"><i id="herohp"></i></span>
+        <span class="num" id="heronum"></span>
+      </div>
+      <div class="barrow">
+        <span class="bar xpbar"><i id="xpfill"></i></span>
+        <span class="num" id="xpnum"></span>
+      </div>
+      <div class="herotop">
+        <span class="num" id="focusnum"></span>
+      </div>
+      <div class="items" id="items"></div>
+    </div>
+
+    <div class="qpanel">
+      <div class="qtag" id="qtag"></div>
+      <p class="stem" id="stem"></p>
+      <div class="choices" id="choices"></div>
+      <p class="hint" id="hint" hidden></p>
+
+      <div class="verdict" id="verdict" hidden>
+        <div class="vhead" id="vhead"></div>
+        <p class="why" id="why"></p>
+        <div class="row">
+          <button type="button" class="btn" id="next">Continue</button>
+        </div>
+      </div>
+
+      <div class="log" id="log"></div>
+    </div>
+  </section>
+
+  <!-- ============================== OVER =============================== -->
+  <section id="view-over" hidden>
+    <div class="endcard" id="endcard">
+      <h2 id="endtitle"></h2>
+      <p id="endtext"></p>
+      <div class="tally">
+        <span><b id="t-right"></b> correct</span>
+        <span><b id="t-asked"></b> asked</span>
+        <span><b id="t-acc"></b> accuracy</span>
+        <span><b id="t-lvl"></b> level</span>
+      </div>
+      <div class="row">
+        <button type="button" class="btn" id="again">Return to the gate</button>
+        <a class="btn btn-ghost" href="../">Plain quiz</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- katex:start -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<!-- katex:end -->
+<script src="../data/macros.js"></script>
+<script src="../data/questions.js"></script>
+<script src="../assets/render.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
