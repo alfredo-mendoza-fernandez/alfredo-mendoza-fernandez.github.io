@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Autoevaluación de Comercio Internacional</title>
+<meta name="description" content="Banco de preguntas de Comercio Internacional, Universidad de los Andes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">U ANDES</span>
+      <span class="brand-course" id="course-name"></span>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" class="lang-btn" id="lang-es" aria-pressed="true">ES</button>
+      <button type="button" class="lang-btn" id="lang-en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============================ SETUP ============================ -->
+    <section id="view-setup">
+      <h1 id="setup-title"></h1>
+      <p class="lede" id="setup-lede"></p>
+
+      <div class="panel">
+        <fieldset>
+          <legend id="lg-topics"></legend>
+          <div class="chips" id="topic-chips"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend id="lg-diff"></legend>
+          <div class="chips" id="diff-chips"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend id="lg-len"></legend>
+          <div class="chips" id="len-chips"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend id="lg-clock"></legend>
+          <div class="chips" id="clock-chips"></div>
+        </fieldset>
+      </div>
+
+      <div class="startbar">
+        <p class="pool-note" id="pool-note"></p>
+        <button type="button" class="btn" id="start"></button>
+      </div>
+
+      <p class="hint" id="hint"></p>
+    </section>
+
+    <!-- ============================= EXAM ============================ -->
+    <section id="view-exam" hidden>
+      <div class="exambar">
+        <div class="exambar-left">
+          <span class="counter" id="counter"></span>
+          <span class="track"><i id="track-fill"></i></span>
+        </div>
+        <div class="exambar-right">
+          <span class="timer" id="timer">00:00</span>
+          <button type="button" class="btn btn-ghost btn-small" id="finish"></button>
+        </div>
+      </div>
+
+      <article class="qcard">
+        <div class="qmeta">
+          <span class="tag" id="tag-topic"></span>
+          <span class="tag tag-diff" id="tag-diff"></span>
+        </div>
+        <h2 class="stem" id="stem"></h2>
+        <div class="choices" id="choices"></div>
+      </article>
+
+      <div class="navrow">
+        <button type="button" class="btn btn-ghost btn-small" id="prev"></button>
+        <button type="button" class="btn btn-ghost btn-small" id="flag"></button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-ghost btn-small" id="next"></button>
+      </div>
+
+      <div class="qmap" id="qmap"></div>
+
+      <div class="confirm" id="confirm" hidden>
+        <p id="confirm-text"></p>
+        <div class="row">
+          <button type="button" class="btn" id="confirm-yes"></button>
+          <button type="button" class="btn btn-ghost" id="confirm-no"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================== RESULTS =========================== -->
+    <section id="view-results" hidden>
+      <h1 id="results-title"></h1>
+      <p class="lede" id="timeup-note" hidden></p>
+
+      <div class="scorehead">
+        <div class="score" id="score"></div>
+        <div class="scorefacts">
+          <span id="score-pct"></span>
+          <span id="score-time"></span>
+        </div>
+      </div>
+
+      <h2 class="legend" style="margin-top:2.4rem" id="lg-breakdown"></h2>
+      <div class="breakdown" id="breakdown"></div>
+
+      <h2 class="legend" style="margin-top:2.6rem" id="lg-review"></h2>
+      <div class="review" id="review"></div>
+
+      <div class="endrow">
+        <button type="button" class="btn" id="retry"></button>
+        <button type="button" class="btn btn-ghost" id="again"></button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="data/questions.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
