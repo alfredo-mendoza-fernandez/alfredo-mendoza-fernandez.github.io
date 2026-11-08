@@ -89,21 +89,53 @@ Adding a topic means adding one entry to the `topics` array with an `id`, an `en
 label and an `es` label. The filter chips and the results breakdown pick it up
 automatically.
 
-### Light markup
+### Mathematics
 
-Allowed inside `stem`, `choices` and `explanation`:
+Write LaTeX, exactly as in a `.tex` file:
+
+```js
+stem: R`The relative price \(P_M/P_F\) rises by 10%.`,
+explanation: R`The effective rate is \[\frac{6{,}500 - 4{,}000}{4{,}000} = 62.5\%.\]`
+```
+
+| Delimiter | Use |
+|---|---|
+| `\( ... \)` | inline |
+| `\[ ... \]` | displayed, centred on its own line |
+
+**Keep the `R` and the backticks.** `R` is `String.raw`, defined at the top of the
+file. It is what lets you paste `\frac`, `\alpha`, `\hat{y}_t` straight from your
+lecture notes without doubling a single backslash. A field written with ordinary
+double quotes will silently swallow them, and `\frac` arrives as `frac`.
+
+Delimiters are `\( \)` rather than `$ $` on purpose: these questions are full of
+prices like `$10,000`, and dollar-delimited maths would swallow them. With `\( \)`
+a bare `$` needs no escaping at all.
+
+KaTeX renders the maths, loaded from a CDN. If it fails to load — campus wifi,
+no network, the bundled preview — the page falls back to a readable plain-text
+rendering rather than showing raw LaTeX, so `\(w/P_W = (P_C/P_W)/a_{LC}\)` still
+arrives as legible notation. A student on a bad connection is never shown source.
+
+### Other markup
 
 | Syntax | Result |
 |---|---|
 | `*text*` | *italic* |
 | `**text**` | **bold** |
-| `P_{C}` | subscript |
-| `a^{*}` | superscript |
 
-Deliberately no LaTeX. Subscripts and superscripts cover the notation these
-questions need (`P_{C}/P_{W}`, `a^{*}_{LC}`) without pulling in a maths renderer
-and its font files. If a question genuinely needs displayed equations, that is the
-point at which to add KaTeX — say so and it can be wired in.
+Asterisks inside maths are safe: the renderer lifts every `\( \)` and `\[ \]` span
+out before the italic rule runs, so `a^{*}_{LC}` is never mistaken for emphasis.
+
+### Before you push
+
+```bash
+python3 tools/check_bank.py
+```
+
+Validates structure, answer indices, bilingual completeness and LaTeX delimiter
+balance, and catches a dropped `R` prefix. Exits non-zero on any problem, so it
+also works as a pre-commit hook.
 
 ## What is in the bank now
 
@@ -136,6 +168,13 @@ python3 tools/build_artifact.py
 
 ## Design notes
 
+- Colours are taken from the tokens in the site's own `styles.css`: `#8a001a`
+  accent, `#25211f` ink, `#6b6662` muted, `#e5dfdc` rules. Dark mode is a warm
+  neutral with the red lifted to stay legible on a dark ground.
+- Red is the brand accent and also marks an incorrect answer on the results
+  screen. It is deliberately *not* used for the selected option during a control,
+  where a red highlight would read as "wrong"; selection is neutral ink instead.
+  Green appears only as the correct-answer marker in review.
 - Preferences that persist in the student's own browser: language, selected topics,
   difficulty, length and clock. Nothing else is stored and nothing leaves the device.
 - No scores are collected. This is a practice tool, not a gradebook. If you later

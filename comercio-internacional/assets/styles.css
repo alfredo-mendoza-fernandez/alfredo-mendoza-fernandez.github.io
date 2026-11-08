@@ -3,17 +3,19 @@
    raised card with the option list below it. */
 
 :root {
-  --paper:      #F4F5F1;
-  --card:       #FFFFFF;
-  --ink:        #13191B;
-  --ink-soft:   #5A6668;
-  --rule:       #D8DED5;
-  --marine:     #0E5E58;
-  --marine-ink: #FFFFFF;
-  --marine-wash:#E2EEEA;
-  --correct:    #1C6B3C;
-  --wrong:      #9E2B21;
-  --warn:       #8C5A05;
+  --paper:      #FFFFFF;
+  --card:       #FBF8F7;
+  --ink:        #25211F;
+  --ink-soft:   #6B6662;
+  --rule:       #E5DFDC;
+  --accent:     #8A001A;
+  --accent-deep:#5F0012;
+  --accent-ink: #FFFFFF;
+  --accent-wash:#F7E8EB;
+  --select:     #F1ECEA;
+  --correct:    #1F6B45;
+  --wrong:      #8A001A;
+  --warn:       #8A5A00;
 
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Newsreader", Georgia, "Times New Roman", serif;
@@ -25,32 +27,36 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper:      #0C1113;
-    --card:       #141B1D;
-    --ink:        #E7EDE8;
-    --ink-soft:   #93A2A1;
-    --rule:       #253130;
-    --marine:     #5FC4B4;
-    --marine-ink: #07211F;
-    --marine-wash:#152E2B;
-    --correct:    #63C184;
-    --wrong:      #E28277;
+    --paper:      #13100F;
+    --card:       #1B1716;
+    --ink:        #EDE7E4;
+    --ink-soft:   #A39B96;
+    --rule:       #332C2A;
+    --accent:     #E2566F;
+    --accent-deep:#F0869A;
+    --accent-ink: #2A0009;
+    --accent-wash:#331218;
+    --select:     #272120;
+    --correct:    #62BE8A;
+    --wrong:      #E2566F;
     --warn:       #D7A646;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper:      #0C1113;
-  --card:       #141B1D;
-  --ink:        #E7EDE8;
-  --ink-soft:   #93A2A1;
-  --rule:       #253130;
-  --marine:     #5FC4B4;
-  --marine-ink: #07211F;
-  --marine-wash:#152E2B;
-  --correct:    #63C184;
-  --wrong:      #E28277;
+  --paper:      #13100F;
+  --card:       #1B1716;
+  --ink:        #EDE7E4;
+  --ink-soft:   #A39B96;
+  --rule:       #332C2A;
+  --accent:     #E2566F;
+  --accent-deep:#F0869A;
+  --accent-ink: #2A0009;
+  --accent-wash:#331218;
+  --select:     #272120;
+  --correct:    #62BE8A;
+  --wrong:      #E2566F;
   --warn:       #D7A646;
   color-scheme: dark;
 }
@@ -85,7 +91,7 @@ body::before {
 }
 
 button { font: inherit; color: inherit; cursor: pointer; }
-:focus-visible { outline: 2px solid var(--marine); outline-offset: 2px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
 em { font-style: italic; }
 sub, sup { font-size: 0.72em; line-height: 0; }
@@ -108,7 +114,7 @@ sub, sup { font-size: 0.72em; line-height: 0; }
   font-weight: 700;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
-  color: var(--marine);
+  color: var(--accent);
   white-space: nowrap;
 }
 
@@ -136,7 +142,7 @@ sub, sup { font-size: 0.72em; line-height: 0; }
   color: var(--ink-soft);
 }
 
-.lang-btn[aria-pressed="true"] { background: var(--marine); color: var(--marine-ink); }
+.lang-btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 
 /* ------------------------------------------------------------------ setup */
 
@@ -183,12 +189,12 @@ legend, .legend {
   gap: 0.45rem;
 }
 
-.chip:hover { border-color: var(--marine); color: var(--ink); }
+.chip:hover { border-color: var(--accent); color: var(--ink); }
 
 .chip[aria-pressed="true"] {
-  background: var(--marine);
-  border-color: var(--marine);
-  color: var(--marine-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .chip .n { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.65; }
@@ -214,15 +220,15 @@ legend, .legend {
   letter-spacing: 0.02em;
   padding: 0.7rem 1.5rem;
   border-radius: var(--radius);
-  border: 1px solid var(--marine);
-  background: var(--marine);
-  color: var(--marine-ink);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 
 .btn-ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
-.btn-ghost:hover:not([disabled]) { border-color: var(--marine); color: var(--marine); }
+.btn-ghost:hover:not([disabled]) { border-color: var(--accent); color: var(--accent); }
 
 .btn-small { padding: 0.45rem 0.9rem; font-size: 0.82rem; }
 
@@ -252,7 +258,7 @@ legend, .legend {
 }
 
 .track { flex: 1 1 auto; min-width: 0; height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
-.track i { display: block; height: 100%; background: var(--marine); transition: width 0.2s ease; }
+.track i { display: block; height: 100%; background: var(--accent); transition: width 0.2s ease; }
 
 .exambar-right { display: flex; align-items: center; gap: 0.7rem; flex: none; }
 
@@ -280,8 +286,8 @@ legend, .legend {
   text-transform: uppercase;
   padding: 0.22rem 0.55rem;
   border-radius: 4px;
-  background: var(--marine-wash);
-  color: var(--marine);
+  background: var(--accent-wash);
+  color: var(--accent);
 }
 
 .tag-diff { background: transparent; border: 1px solid var(--rule); color: var(--ink-soft); }
@@ -310,7 +316,7 @@ legend, .legend {
   line-height: 1.45;
 }
 
-.choice:hover { border-color: var(--marine); }
+.choice:hover { border-color: var(--accent); }
 
 .choice .key {
   font-family: var(--font-mono);
@@ -329,8 +335,11 @@ legend, .legend {
 
 .choice .body { min-width: 0; }
 
-.choice[aria-pressed="true"] { border-color: var(--marine); background: var(--marine-wash); }
-.choice[aria-pressed="true"] .key { background: var(--marine); border-color: var(--marine); color: var(--marine-ink); }
+/* Selection is deliberately neutral, not red: during a control a red highlight
+   on the chosen option reads as "wrong". Red is reserved for the brand and for
+   the incorrect verdict on the results screen. */
+.choice[aria-pressed="true"] { border-color: var(--ink); background: var(--select); }
+.choice[aria-pressed="true"] .key { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
 .navrow { display: flex; gap: 0.6rem; margin-top: 1.6rem; }
 .navrow .spacer { flex: 1 1 auto; }
@@ -352,7 +361,7 @@ legend, .legend {
   color: var(--ink-soft);
 }
 
-.dot.done { background: var(--marine-wash); border-color: var(--marine); color: var(--marine); }
+.dot.done { background: var(--select); border-color: var(--ink); color: var(--ink); }
 .dot.flag { border-color: var(--warn); color: var(--warn); }
 .dot.here { outline: 2px solid var(--ink); outline-offset: 1px; }
 
@@ -389,7 +398,7 @@ legend, .legend {
 .brow { display: grid; grid-template-columns: minmax(0, 11rem) 1fr auto; gap: 0.8rem; align-items: center; font-size: 0.88rem; }
 .brow .name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-soft); }
 .brow .bar { height: 7px; background: var(--rule); border-radius: 3px; overflow: hidden; }
-.brow .bar i { display: block; height: 100%; background: var(--marine); }
+.brow .bar i { display: block; height: 100%; background: var(--accent); }
 .brow .frac { font-family: var(--font-mono); font-size: 0.78rem; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
 
 .review { margin-top: 2.6rem; display: flex; flex-direction: column; gap: 1rem; }
@@ -435,6 +444,22 @@ legend, .legend {
 
 .hint { margin-top: 2.5rem; font-size: 0.8rem; color: var(--ink-soft); }
 .hint kbd { font-family: var(--font-mono); font-size: 0.75rem; border: 1px solid var(--rule); border-radius: 4px; padding: 0.05rem 0.3rem; }
+
+/* ------------------------------------------------------------------- math */
+
+.katex { font-size: 1.04em; }
+
+.katex-display {
+  margin: 0.9em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.2em;
+}
+
+/* Fallback rendering when KaTeX is not loaded. */
+.tex { font-family: var(--font-body); font-style: italic; white-space: nowrap; }
+.tex-block { display: block; text-align: center; margin: 0.9em 0; white-space: normal; }
+.tex sub, .tex sup { font-style: normal; }
 
 @media (max-width: 460px) {
   body { font-size: 16px; }

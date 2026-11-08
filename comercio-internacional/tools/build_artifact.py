@@ -17,6 +17,11 @@ css = (root / "assets/styles.css").read_text()
 app = (root / "assets/app.js").read_text()
 bank = (root / "data/questions.js").read_text()
 
+# The shared preview runs under a content policy that permits scripts from the
+# CDN but not stylesheets or font files, so KaTeX would render unstyled there.
+# Strip it and let the page fall back to its plain-text maths rendering.
+html = re.sub(r"<!-- katex:start -->.*?<!-- katex:end -->\s*", "", html, flags=re.S)
+
 title = re.search(r"<title>(.*?)</title>", html, re.S).group(1)
 fonts = re.search(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^>]*>', html).group(0)
 body = re.search(r"<body>(.*)</body>", html, re.S).group(1)
